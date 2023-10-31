@@ -1,9 +1,9 @@
 <template>
   <q-page class="my-page">
     <q-card class="my-card">
-      <h6>Administração Produto</h6>
+      <h6>Administração Usuário</h6>
       <div align="right">
-        <router-link :to="{ name: 'produtonew' }">
+        <router-link :to="{ name: 'usuarionew' }">
           <q-btn
             icon="add_circle"
             label="Novo"
@@ -17,22 +17,26 @@
         <thead>
           <tr>
             <th>IDE</th>
-            <th>Produto</th>
-            <th>Preço</th>
+            <th>Usuário</th>
+            <th>Ponto</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
             <th>Ação</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr v-for="produto in produtos" :key="produto.ide_produto">
-            <td style="width: 10px">{{ produto.ide_produto }}</td>
-            <td style="width: 150px">{{ produto.nom_produto }}</td>
-            <td style="width: 40px">{{ produto.num_preco }}</td>
+          <tr v-for="usuario in usuarios" :key="usuario.ide_usuario">
+            <td style="width: 10px">{{ usuario.ide_usuario }}</td>
+            <td style="width: 320px">{{ usuario.nom_usuario }}</td>
+            <td style="width: 50px">{{ usuario.tex_login }}</td>
+            <td style="width: 80px">{{ usuario.num_telefone }}</td>
+            <td style="width: 100px">{{ usuario.tex_email }}</td>
             <td style="width: 130px">
               <router-link
                 :to="{
-                  name: 'produtoupdate',
-                  params: { id: produto.ide_produto },
+                  name: 'usuarioupdate',
+                  params: { id: usuario.ide_usuario },
                 }"
               >
                 <q-btn push color="primary" icon="edit" title="Editar"> </q-btn>
@@ -46,7 +50,7 @@
                 icon="delete_forever"
                 title="Excluir"
                 @click="
-                  showModalproduto(produto.ide_produto, produto.nom_produto)
+                  showModalusuario(usuario.ide_usuario, usuario.nom_usuario)
                 "
               />
             </td>
@@ -65,7 +69,7 @@
             />
             <span class="q-ml-sm"
               >Você tem certeza que deseja excluir
-              <b>{{ this.nomeProduto }}?</b>
+              <b>{{ this.nomeUsuario }}?</b>
             </span>
           </q-card-section>
 
@@ -75,7 +79,7 @@
               flat
               label="Excluir"
               color="negative"
-              @click="deleteProduto()"
+              @click="deleteUsuario()"
             />
           </q-card-actions>
         </q-card>
@@ -134,10 +138,10 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://localhost:8080/produto/list")
+      .post("http://localhost:8080/usuario/list")
       .then((res) => {
         console.log(res);
-        this.produtos = res.data;
+        this.usuarios = res.data;
       })
       .catch((err) => {
         console.log(err);
@@ -145,23 +149,23 @@ export default defineComponent({
   },
   data() {
     return {
-      produtos: [],
-      deleteProdutoId: -1,
+      usuarios: [],
+      deleteUsuarioId: -1,
     };
   },
   methods: {
     clearpage() {
-      this.$router.go("/produto/produtoupdate");
+      this.$router.go("/usuario/usuarioupdate");
     },
-    showModalproduto(ide_produto, nom_produto) {
-      this.deleteProdutoId = ide_produto;
-      this.nomeProduto = nom_produto;
-      console.log(this.nomeProduto);
+    showModalusuario(ide_usuario, nom_usuario) {
+      this.deleteUsuarioId = ide_usuario;
+      this.nomeUsuario = nom_usuario;
+      console.log(this.nomeUsuario);
       this.showdelete = true;
     },
-    deleteProduto() {
+    deleteUsuario() {
       axios
-        .delete("http://localhost:8080/produto/delete/" + this.deleteProdutoId)
+        .delete("http://localhost:8080/usuario/delete/" + this.deleteUsuarioId)
         .then((this.showdelete = false), this.clearpage())
         .catch((error) => {
           console.log(error);

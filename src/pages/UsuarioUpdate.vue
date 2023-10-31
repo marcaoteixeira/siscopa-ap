@@ -7,21 +7,33 @@
           <div class="q-gutter-y-md column" style="max-width: 500px">
             <q-input
               outlined
-              v-model="nom_produto"
-              label="Nome do produto"
-              name="nom_produto"
+              v-model="nom_usuario"
+              label="Nome do usuário"
+              name="nom_usuario"
             />
             <q-input
               outlined
-              v-model="num_preco"
-              label="Preço"
-              name="num_produto"
+              v-model="tex_login"
+              label="Login"
+              name="tex_login"
+            />
+            <q-input
+              outlined
+              v-model="num_telefone"
+              label="Telefone"
+              name="num_telefone"
+            />
+            <q-input
+              outlined
+              v-model="tex_email"
+              label="E-mail"
+              name="tex_email"
             />
             <div>
               <q-checkbox
                 left-label
                 v-model="ind_bloqueado"
-                label="Produto não disponível"
+                label="Usuário bloqueado"
               />
             </div>
             <div class="my-button">
@@ -42,12 +54,14 @@ import { ref } from "vue";
 export default defineComponent({
   created() {
     axios
-      .get("http://localhost:8080/produto/" + this.$route.params.id)
+      .get("http://localhost:8080/usuario/" + this.$route.params.id)
       .then((res) => {
         console.log(res);
-        this.ide_produto = res.data.ide_produto;
-        this.nom_produto = res.data.nom_produto;
-        this.num_preco = res.data.num_preco;
+        this.ide_usuario = res.data.ide_usuario;
+        this.nom_usuario = res.data.nom_usuario;
+        this.tex_login = res.data.tex_login;
+        this.num_telefone = res.data.num_telefone;
+        this.tex_email = res.data.tex_email;
         this.nom_usuario_criador = res.data.nom_usuario_criador;
         this.dat_criacao = res.data.dat_criacao;
         this.nom_usuario_ultima_alteracao =
@@ -57,7 +71,7 @@ export default defineComponent({
       })
       .catch((err) => {
         console.log(err);
-        this.$router.push({ name: "produtolist" });
+        this.$router.push({ name: "usuariolist" });
       });
   },
 
@@ -70,8 +84,10 @@ export default defineComponent({
   },
   data() {
     return {
-      nom_produto: null,
-      num_preco: null,
+      nom_usuario: null,
+      tex_login: null,
+      num_telefone: null,
+      tex_email: null,
       nom_usuario_criador: null,
       dat_criacao: null,
       nom_usuario_ultima_alteracao: null,
@@ -82,23 +98,25 @@ export default defineComponent({
 
   methods: {
     clearpage() {
-      this.$router.go("/produto/produtoupdate");
+      this.$router.go("/usuario/usuarioupdate");
     },
     update() {
       const agora = new Date();
       console.log(agora);
       axios
-        .put("http://localhost:8080/produto/update", {
-          ide_produto: this.ide_produto,
-          nom_produto: this.nom_produto,
-          num_preco: this.num_preco,
+        .put("http://localhost:8080/usuario/update", {
+          ide_usuario: this.ide_usuario,
+          nom_usuario: this.nom_usuario,
+          tex_login: this.tex_login,
+          num_telefone: this.num_telefone,
+          tex_email: this.tex_email,
           nom_usuario_criador: this.nom_usuario_criador,
           dat_criacao: this.dat_criacao,
           nom_usuario_ultima_alteracao: agora,
           dat_ultima_alteracao: this.dat_ultima_alteracao,
           ind_bloqueado: this.ind_bloqueado,
         })
-        .then(this.$router.push({ name: "produtolist" }))
+        .then(this.$router.push({ name: "usuariolist" }))
         .catch((err) => {
           console.log(err);
         });

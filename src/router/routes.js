@@ -42,7 +42,39 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "usuarioupdate",
+        path: "/usuarioupdate/:id",
+        component: () => import("src/pages/UsuarioUpdate.vue"),
+      },
+    ],
+  },
+  {
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "usuarionew",
+        path: "/usuario",
+        component: () => import("pages/UsuarioNew.vue"),
+      },
+    ],
+  },
+  {
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        name: "usuariolist",
+        path: "/usuariolist",
+        component: () => import("pages/UsuarioList.vue"),
+      },
+    ],
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

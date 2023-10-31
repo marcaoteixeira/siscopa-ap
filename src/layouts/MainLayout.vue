@@ -50,7 +50,7 @@ const linksList = [
     title: "Funcionários",
     caption: "cadastro de funcionários",
     icon: "people",
-    link: "",
+    link: "http://localhost:9000/#/usuariolist",
   },
   {
     title: "Compras",
