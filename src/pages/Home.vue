@@ -13,7 +13,7 @@
 
         <q-toolbar-title> LIDERANÇA DO PSDB - SISCOPA </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Liderança PSDB - V1.1.1</div>
       </q-toolbar>
     </q-header>
 

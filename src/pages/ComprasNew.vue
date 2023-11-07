@@ -63,6 +63,9 @@
           style="max-width: 150px"
         />
       </span>
+      <div class="my-button">
+        <q-btn push color="primary" label="Cadastrar" @click="cadastro" />
+      </div>
     </q-card>
   </q-page>
 </template>
@@ -102,17 +105,43 @@ export default defineComponent({
 
   data() {
     return {
-      ide_produto: "",
       ide_usuario: "",
-      qtd_produto: "",
+      ide_produto: "",
+      qtd_produto: 1,
       dat_compra: "",
+      ind_pago: "",
+      nom_usuario_criador: "",
+      dat_criacao: "",
+      nom_usuario_ultima_alteracao: "",
+      dat_ultima_alteracao: "",
       produtos: [],
       usuarios: [],
     };
   },
   methods: {
     clearpage() {
-      this.$router.go("/produto/produtoupdate");
+      this.$router.go("/produto/comprasnew");
+    },
+    cadastro() {
+      const agora = new Date();
+      console.log(agora);
+      //this.$swal('Cadastro com Sucesso!');
+      axios
+        .post("http://localhost:8080/compra/new", {
+          ide_produto: this.ide_usuario,
+          ide_usuario: this.ide_produto,
+          qtd_produto: this.qtd_produto,
+          dat_compra: this.dat_compra,
+          ind_pago: this.ind_pago,
+          nom_usuario_criador: this.nom_usuario_criador,
+          dat_criacao: agora,
+          nom_usuario_ultima_alteracao: this.nom_usuario_ultima_alteracao,
+          dat_ultima_alteracao: this.dat_ultima_alteracao,
+        })
+        .then(this.$router.push({ name: "comprasnew" }))
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
   },
 });
