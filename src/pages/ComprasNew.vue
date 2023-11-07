@@ -128,8 +128,8 @@ export default defineComponent({
       //this.$swal('Cadastro com Sucesso!');
       axios
         .post("http://localhost:8080/compra/new", {
-          ide_produto: this.ide_usuario,
-          ide_usuario: this.ide_produto,
+          ide_produto: this.modelproduto.ide_produto,
+          ide_usuario: this.modelusuario.ide_usuario,
           qtd_produto: this.qtd_produto,
           dat_compra: this.dat_compra,
           ind_pago: this.ind_pago,
