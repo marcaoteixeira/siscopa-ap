@@ -53,7 +53,7 @@ const linksList = [
     link: "#/produtolist",
   },
   {
-    title: "Funcionários",
+    title: "Usuários",
     caption: "cadastro de funcionários",
     icon: "people",
     link: "#/usuariolist",
@@ -62,7 +62,7 @@ const linksList = [
     title: "Compras",
     caption: "cadastro de compras",
     icon: "local_grocery_store",
-    link: "#/compras",
+    link: "#/comprasnew",
   },
   {
     title: "Extrato",
