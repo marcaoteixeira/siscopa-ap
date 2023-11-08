@@ -4,12 +4,12 @@
       <h6>Lançamento de Compras</h6>
       <span>
         <q-select
-          v-model="modelusuario"
+          :model-value="modelusuario"
+          @update:model-value="atribuiUsuario"          
           :options="usuarios"
           option-value="ide_usuario"
           option-label="nom_usuario"
           hint="Usuário"
-          name="ide_usuario"
         />
         <q-select
           v-model="modelproduto"
@@ -17,7 +17,7 @@
           option-value="ide_produto"
           option-label="nom_produto"
           hint="Produto"
-          name="ide_produto"
+          
         />
 
         <!-- <span>Escolha o Usuário:</span>&nbsp;
@@ -78,10 +78,10 @@
       </thead>
 
       <tbody>
-        <tr v-for="compra in compras" :key="compra.ide_compra">
-          <td style="width: 10px">{{ compra.ide_compra }}</td>
-          <td style="width: 50px">{{ compra.ide_produto }}</td>
-          <td style="width: 80px">{{ compra.qtd_produto}}</td>
+        <tr v-for="item in compras" :key="item.ide_compra">
+          <td style="width: 10px">{{ item.ide_compra }}</td>
+          <td style="width: 50px">{{ item.nom_produto }}</td>
+          <td style="width: 80px">{{ item.qtd_produto}}</td>
           <td style="width: 130px">
             <q-btn
               push
@@ -89,7 +89,7 @@
               icon="delete_forever"
               title="Excluir"
               @click="
-                showModalcompra(compra.ide_compra)
+                showModalcompra(item.ide_compra)
               "
             />
           </td>
@@ -177,12 +177,19 @@ export default defineComponent({
     };
   },
   methods: {
-    carregaListacompras(ide_compra) {
+    atribuiUsuario(usuario){
+      this.modelusuario = usuario;
+      this.carregaListacompras();
+      
+    },
+    carregaListacompras() {
+      
+      console.log('**********')
       axios.post("http://localhost:8080/compra/list") +
       this.modelusuario.ide_usuario
         .then((res) => {
           console.log(res);
-          this.usuarios = res.data;
+          this.compras = res.data;
         })
         .catch((err) => {
           console.log(err);
