@@ -65,8 +65,53 @@
       </span>
       <div class="my-button">
         <q-btn push color="primary" label="Cadastrar" @click="cadastro" />
-      </div>
-    </q-card>
+      </div> </q-card
+    ><br />
+    <table border="solid" align="center">
+      <thead>
+        <tr>
+          <th>IDE</th>
+          <th>Usuário</th>
+          <th>Ponto</th>
+          <th>Telefone</th>
+          <th>E-mail</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="usuario in usuarios" :key="usuario.ide_usuario">
+          <td style="width: 10px">{{ usuario.ide_usuario }}</td>
+          <td style="width: 320px">{{ usuario.nom_usuario }}</td>
+          <td style="width: 50px">{{ usuario.tex_login }}</td>
+          <td style="width: 80px">{{ usuario.num_telefone }}</td>
+          <td style="width: 100px">{{ usuario.tex_email }}</td>
+          <td style="width: 130px">
+            <router-link
+              :to="{
+                name: 'usuarioupdate',
+                params: { id: usuario.ide_usuario },
+              }"
+            >
+              <q-btn push color="primary" icon="edit" title="Editar"> </q-btn>
+            </router-link>
+
+            &nbsp;&nbsp;
+
+            <q-btn
+              push
+              color="negative"
+              icon="delete_forever"
+              title="Excluir"
+              @click="
+                showModalusuario(usuario.ide_usuario, usuario.nom_usuario)
+              "
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
   </q-page>
 </template>
 
@@ -101,6 +146,15 @@ export default defineComponent({
       .catch((err) => {
         console.log(err);
       });
+    axios.post("http://localhost:8080/compra/") +
+      this.modelusuario.ide_usuario
+        .then((res) => {
+          console.log(res);
+          this.usuarios = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   },
 
   data() {
