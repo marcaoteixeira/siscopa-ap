@@ -80,31 +80,19 @@
       </thead>
 
       <tbody>
-        <tr v-for="usuario in usuarios" :key="usuario.ide_usuario">
-          <td style="width: 10px">{{ usuario.ide_usuario }}</td>
-          <td style="width: 320px">{{ usuario.nom_usuario }}</td>
-          <td style="width: 50px">{{ usuario.tex_login }}</td>
-          <td style="width: 80px">{{ usuario.num_telefone }}</td>
-          <td style="width: 100px">{{ usuario.tex_email }}</td>
+        <tr v-for="compra in compras" :key="compra.ide_compra">
+          <td style="width: 10px">{{ compra.ide_compra }}</td>
+          <td style="width: 320px">{{ compra.ide_usuario }}</td>
+          <td style="width: 50px">{{ compra.ide_produto }}</td>
+          <td style="width: 80px">{{ compra.qtd_produto}}</td>
           <td style="width: 130px">
-            <router-link
-              :to="{
-                name: 'usuarioupdate',
-                params: { id: usuario.ide_usuario },
-              }"
-            >
-              <q-btn push color="primary" icon="edit" title="Editar"> </q-btn>
-            </router-link>
-
-            &nbsp;&nbsp;
-
             <q-btn
               push
               color="negative"
               icon="delete_forever"
               title="Excluir"
               @click="
-                showModalusuario(usuario.ide_usuario, usuario.nom_usuario)
+                showModalcompra(compra.ide_compra)
               "
             />
           </td>
@@ -112,6 +100,31 @@
       </tbody>
     </table>
     <br />
+    <q-dialog v-model="showdelete" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar
+              icon="delete_forever"
+              color="negative"
+              text-color="white"
+            />
+            <span class="q-ml-sm"
+              >Você tem certeza que deseja excluir a compra?
+            </span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancelar" color="primary" v-close-popup />
+            <q-btn
+              flat
+              label="Excluir"
+              color="negative"
+              @click="deleteCompra()"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+
   </q-page>
 </template>
 
@@ -125,6 +138,7 @@ export default defineComponent({
     return {
       modelusuario: ref(null),
       modelproduto: ref(null),
+      showdelete: ref(false),
     };
   },
   created() {
@@ -146,7 +160,7 @@ export default defineComponent({
       .catch((err) => {
         console.log(err);
       });
-    axios.post("http://localhost:8080/compra/") +
+    axios.post("http://localhost:8080/compra/list") +
       this.modelusuario.ide_usuario
         .then((res) => {
           console.log(res);
@@ -170,9 +184,26 @@ export default defineComponent({
       dat_ultima_alteracao: "",
       produtos: [],
       usuarios: [],
+      compras: [],
+      deleteCompraId: -1,
     };
   },
   methods: {
+    showModalcompra(ide_compra) {
+      this.deleteCompraId = ide_compra;
+      //this.nomeUsuario = nom_usuario;
+      //console.log(this.nomeUsuario);
+      this.showdelete = true;
+    },
+    deleteCompra() {
+      axios
+        .delete("http://localhost:8080/compra/delete/" + this.deleteCompraId)
+        .then((this.showdelete = false), this.clearpage())
+        .catch((error) => {
+          console.log(error);
+          this.showdelete = ref(false);
+        });
+    },
     clearpage() {
       this.$router.go("/produto/comprasnew");
     },
