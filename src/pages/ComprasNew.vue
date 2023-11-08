@@ -71,10 +71,8 @@
       <thead>
         <tr>
           <th>IDE</th>
-          <th>Usuário</th>
-          <th>Ponto</th>
-          <th>Telefone</th>
-          <th>E-mail</th>
+          <th>Produto</th>
+          <th>QTD.</th>
           <th>Ação</th>
         </tr>
       </thead>
@@ -82,7 +80,6 @@
       <tbody>
         <tr v-for="compra in compras" :key="compra.ide_compra">
           <td style="width: 10px">{{ compra.ide_compra }}</td>
-          <td style="width: 320px">{{ compra.ide_usuario }}</td>
           <td style="width: 50px">{{ compra.ide_produto }}</td>
           <td style="width: 80px">{{ compra.qtd_produto}}</td>
           <td style="width: 130px">
