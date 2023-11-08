@@ -80,43 +80,6 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-
-      <!-- <div :class="{ modal: true, 'is-active': showModal }">
-        <div class="modal-background"></div>
-        <div class="modal-content">
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">
-                Você deseja realmente excluir essa Comissão???
-              </p>
-              <button class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </button>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <img src="../../../public/img/warning.jpg" alt="Atenção" />
-                <br />
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a href="#" class="card-footer-item" @click="hideModal()"
-                >Cancelar</a
-              >
-              <a href="#" class="card-footer-item" @click="deleteComis()"
-                >Excluir</a
-              >
-            </footer>
-          </div>
-        </div>
-        <button
-          class="modal-close is-large"
-          aria-label="close"
-          @click="hideModal()"
-        ></button>
-      </div> -->
     </q-card>
   </q-page>
 </template>
