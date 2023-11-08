@@ -160,15 +160,6 @@ export default defineComponent({
       .catch((err) => {
         console.log(err);
       });
-    axios.post("http://localhost:8080/compra/list") +
-      this.modelusuario.ide_usuario
-        .then((res) => {
-          console.log(res);
-          this.usuarios = res.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
   },
 
   data() {
@@ -189,6 +180,17 @@ export default defineComponent({
     };
   },
   methods: {
+    carregaListacompras(ide_compra) {
+      axios.post("http://localhost:8080/compra/list") +
+      this.modelusuario.ide_usuario
+        .then((res) => {
+          console.log(res);
+          this.usuarios = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     showModalcompra(ide_compra) {
       this.deleteCompraId = ide_compra;
       //this.nomeUsuario = nom_usuario;
