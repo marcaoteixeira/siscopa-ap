@@ -217,7 +217,12 @@ export default defineComponent({
     deleteCompra() {
       axios
         .delete("http://localhost:8080/compra/delete/" + this.deleteCompraId)
-        .then((this.showdelete = false), this.clearpage())
+        .then(
+          (this.showdelete = false),
+          (this.compras = this.compras.filter(
+            (c) => c.ide_compra != this.deleteCompraId
+          ))
+        )
         .catch((error) => {
           console.log(error);
           this.showdelete = ref(false);
