@@ -27,7 +27,7 @@
           <tr v-for="produto in produtos" :key="produto.ide_produto">
             <td style="width: 10px">{{ produto.ide_produto }}</td>
             <td style="width: 150px">{{ produto.nom_produto }}</td>
-            <td style="width: 40px">{{ produto.num_preco }}</td>
+            <td style="width: 40px">{{ formatNumber(produto.num_preco) }}</td>
             <td style="width: 130px">
               <router-link
                 :to="{
@@ -113,6 +113,13 @@ export default defineComponent({
     };
   },
   methods: {
+    formatNumber(vnumber) {
+      const formattedNumber = vnumber.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+      return formattedNumber;
+    },
     clearpage() {
       this.$router.go("/produto/produtoupdate");
     },

@@ -5,7 +5,7 @@
       <span>
         <q-select
           :model-value="modelusuario"
-          @update:model-value="atribuiUsuario"          
+          @update:model-value="atribuiUsuario"
           :options="usuarios"
           option-value="ide_usuario"
           option-label="nom_usuario"
@@ -17,7 +17,7 @@
           option-value="ide_produto"
           option-label="nom_produto"
           hint="Produto"
-          
+          name="ide_produto"
         />
 
         <!-- <span>Escolha o Usuário:</span>&nbsp;
@@ -65,32 +65,40 @@
       </span>
       <div class="my-button">
         <q-btn push color="primary" label="Cadastrar" @click="cadastro" />
-      </div> </q-card
-    ><br />
-    <table border="solid" align="center">
+      </div>
+    </q-card>
+    <hr />
+
+    <table border="solid" align="left">
       <thead>
         <tr>
           <th>IDE</th>
           <th>Produto</th>
           <th>QTD.</th>
+          <th>Data Compra</th>
           <th>Ação</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="item in compras" :key="item.ide_compra">
-          <td style="width: 10px">{{ item.ide_compra }}</td>
-          <td style="width: 50px">{{ item.nom_produto }}</td>
-          <td style="width: 80px">{{ item.qtd_produto}}</td>
-          <td style="width: 130px">
+        <tr v-for="compra in compras" :key="compra.ide_compra">
+          <td style="width: 10px; text-align: right">
+            {{ compra.ide_compra }}
+          </td>
+          <td style="width: 450px">{{ compra.nom_produto }}</td>
+          <td style="width: 20px; text-align: center">
+            {{ compra.qtd_produto }}
+          </td>
+          <td style="width: 280px; text-align: right">
+            {{ formatDate(compra.dat_compra) }}
+          </td>
+          <td style="width: 30px">
             <q-btn
               push
               color="negative"
               icon="delete_forever"
               title="Excluir"
-              @click="
-                showModalcompra(item.ide_compra)
-              "
+              @click="showModalcompra(compra.ide_compra, compra.nom_produto)"
             />
           </td>
         </tr>
@@ -98,30 +106,26 @@
     </table>
     <br />
     <q-dialog v-model="showdelete" persistent>
-        <q-card>
-          <q-card-section class="row items-center">
-            <q-avatar
-              icon="delete_forever"
-              color="negative"
-              text-color="white"
-            />
-            <span class="q-ml-sm"
-              >Você tem certeza que deseja excluir a compra?
-            </span>
-          </q-card-section>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar icon="delete_forever" color="negative" text-color="white" />
+          <span class="q-ml-sm"
+            >Você tem certeza que deseja excluir a compra
+            <b>{{ this.nomeProduto }}?</b>
+          </span>
+        </q-card-section>
 
-          <q-card-actions align="right">
-            <q-btn flat label="Cancelar" color="primary" v-close-popup />
-            <q-btn
-              flat
-              label="Excluir"
-              color="negative"
-              @click="deleteCompra()"
-            />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
-
+        <q-card-actions align="right">
+          <q-btn flat label="Cancelar" color="primary" v-close-popup />
+          <q-btn
+            flat
+            label="Excluir"
+            color="negative"
+            @click="deleteCompra()"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -177,27 +181,36 @@ export default defineComponent({
     };
   },
   methods: {
-    atribuiUsuario(usuario){
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat("pt-BR", {
+        dateStyle: "short",
+        //timeStyle: "short",
+        //timeZone: "UTC",
+      }).format(date);
+    },
+    atribuiUsuario(usuario) {
       this.modelusuario = usuario;
       this.carregaListacompras();
-      
     },
     carregaListacompras() {
-      
-      console.log('**********')
-      axios.post("http://localhost:8080/compra/list") +
-      this.modelusuario.ide_usuario
+      //console.log(this.modelusuario.ide_usuario);
+      axios
+        .post(
+          "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
+        )
         .then((res) => {
           console.log(res);
           this.compras = res.data;
         })
         .catch((err) => {
           console.log(err);
+          this.compras = [];
         });
     },
-    showModalcompra(ide_compra) {
+    showModalcompra(ide_compra, nom_produto) {
       this.deleteCompraId = ide_compra;
-      //this.nomeUsuario = nom_usuario;
+      this.nomeProduto = nom_produto;
       //console.log(this.nomeUsuario);
       this.showdelete = true;
     },
