@@ -194,7 +194,7 @@ export default defineComponent({
       this.carregaListacompras();
     },
     carregaListacompras() {
-      //console.log(this.modelusuario.ide_usuario);
+      console.log('oi ' + this.modelusuario.ide_usuario);
       axios
         .post(
           "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
@@ -247,7 +247,7 @@ export default defineComponent({
           nom_usuario_ultima_alteracao: this.nom_usuario_ultima_alteracao,
           dat_ultima_alteracao: this.dat_ultima_alteracao,
         })
-        .then(this.$router.push({ name: "comprasnew" }))
+        .then(this.atribuiUsuario(this.modelusuario))
         .catch((err) => {
           console.log(err.response);
         });
