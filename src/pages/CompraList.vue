@@ -1,7 +1,7 @@
 <template>
   <q-page class="my-page">
     <q-card class="my-card">
-      <h6>Administração Compras</h6>
+      <h6>Extrato Compras</h6>
       <q-select
           :model-value="modelusuario"
           @update:model-value="atribuiUsuario"
@@ -14,7 +14,7 @@
         <router-link :to="{ name: 'compranovo' }">
           <q-btn
             icon="add_circle"
-            label="Novo"
+            label="Pagar"
             push
             color="primary"
             class="my-button"
@@ -55,6 +55,7 @@
           <th>IDE</th>
           <th>Produto</th>
           <th>QTD.</th>
+          <th>Preço</th>
           <th>Data Compra</th>
           <th>Ação</th>
         </tr>
@@ -69,6 +70,7 @@
           <td style="width: 20px; text-align: center">
             {{ compra.qtd_produto }}
           </td>
+          <td style="width: 40px">{{ formatNumber(compra.num_preco) }}</td>
           <td style="width: 280px; text-align: right">
             {{ formatDate(compra.dat_compra) }}
           </td>
@@ -84,7 +86,7 @@
         </tr>
       </tbody>
     </table>
-
+    <h6>Total: {{ modelTotal }}</h6>
   </q-page>
 </template>
 
@@ -97,6 +99,7 @@ export default defineComponent({
   setup() {
     return {
       modelusuario: ref(null),
+      modelTotal: ref(null),
       showdelete: ref(false),
     };
   },
@@ -119,12 +122,22 @@ export default defineComponent({
     };
   },
   methods: {
-    formatDate(dateString) {
+
+    totalCompras() {
+      var total = 0;
+      if (this.compras == [] || this.compras.length == 0) return 5;
+      for ( var i = 0; i < this.compras.length; i++ ){
+        total += (this.compras[i].num_preco * this.compras[i].qtd_produto);
+        //total += (this.compras.num_preco[i])
+      } 
+      return total;
+    },
+   formatDate(dateString) {
       const date = new Date(dateString);
       return new Intl.DateTimeFormat("pt-BR", {
         dateStyle: "short",
         //timeStyle: "short",
-        //timeZone: "UTC",
+        timeZone: "UTC",
       }).format(date);
     },
     atribuiUsuario(usuario) {
@@ -140,6 +153,7 @@ export default defineComponent({
         .then((res) => {
           console.log(res);
           this.compras = res.data;
+          this.modelTotal = this.totalCompras();
         })
         .catch((err) => {
           console.log(err);
