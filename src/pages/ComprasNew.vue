@@ -1,4 +1,5 @@
 <template>
+  <ComponentToReRender :key="componentKey" />
   <q-page class="my-page">
     <q-card class="my-card">
       <h6>Lançamento de Compras</h6>
@@ -186,15 +187,18 @@ export default defineComponent({
       return new Intl.DateTimeFormat("pt-BR", {
         dateStyle: "short",
         //timeStyle: "short",
-        //timeZone: "UTC",
+        timeZone: "UTC",
       }).format(date);
+    },
+    forceRender() {
+      this.componentKey += 1;
     },
     atribuiUsuario(usuario) {
       this.modelusuario = usuario;
       this.carregaListacompras();
     },
     carregaListacompras() {
-      console.log("oi " + this.modelusuario.ide_usuario);
+      this.$forceUpdate(this.compras); //Força a atualização da lista de compras
       axios
         .post(
           "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
@@ -202,6 +206,7 @@ export default defineComponent({
         .then((res) => {
           console.log(res);
           this.compras = res.data;
+          this.forceRender();
         })
         .catch((err) => {
           console.log(err);
