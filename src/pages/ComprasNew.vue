@@ -194,7 +194,7 @@ export default defineComponent({
       this.carregaListacompras();
     },
     carregaListacompras() {
-      console.log('oi ' + this.modelusuario.ide_usuario);
+      console.log("oi " + this.modelusuario.ide_usuario);
       axios
         .post(
           "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
