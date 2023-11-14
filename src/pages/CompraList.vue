@@ -1,7 +1,9 @@
 <template>
   <q-page class="my-page">
     <q-card class="my-card">
-      <h6>{{ this.usuario.nom_usuario }}</h6>
+      <span v-for="usuario in usuarios" :key="usuario.ide_usuario">
+        <h5>{{ usuario.nom_usuario }}</h5></span
+      >
       <div align="right">
         <router-link :to="{ name: 'comprasnew' }">
           <q-btn
@@ -14,6 +16,7 @@
         </router-link>
       </div>
     </q-card>
+    <hr />
     <table border="solid" align="left">
       <thead>
         <tr>
@@ -91,10 +94,9 @@ export default defineComponent({
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
-        this.usuario = this.usuarios.filter(
+        this.usuarios = this.usuarios.filter(
           (c) => c.ide_usuario == this.$route.params.id
         );
-        console.log(this.usuario.nom_usuario);
       })
       .catch((err) => {
         console.log(err);
