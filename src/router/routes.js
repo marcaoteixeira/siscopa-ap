@@ -49,6 +49,11 @@ const routes = [
         path: "/compralist",
         component: () => import("pages/CompraList.vue"),
       },
+      {
+        name: "pagarcompra",
+        path: "/usuarioupdate/:id",
+        component: () => import("src/pages/UsuarioUpdate.vue"),
+      },
     ],
   },
   // Always leave this as last one,
