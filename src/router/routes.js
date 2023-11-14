@@ -46,13 +46,13 @@ const routes = [
       },
       {
         name: "compralist",
-        path: "/compralist",
+        path: "/compralist/:id",
         component: () => import("pages/CompraList.vue"),
       },
       {
-        name: "pagarcompra",
-        path: "/usuarioupdate/:id",
-        component: () => import("src/pages/UsuarioUpdate.vue"),
+        name: "extratocompra",
+        path: "/extratocompra",
+        component: () => import("src/pages/ExtratoCompra.vue"),
       },
     ],
   },

@@ -1,5 +1,4 @@
 <template>
-  <ComponentToReRender :key="componentKey" />
   <q-page class="my-page">
     <q-card class="my-card">
       <h6>Lançamento de Compras</h6>
@@ -69,6 +68,15 @@
       </div>
     </q-card>
     <hr />
+    <!--  <q-table
+      flat
+      bordered
+      title="Compras"
+      :rows="compras"
+      :columns="columns"
+      row-key="ide_compra"
+      color="grey"
+    /> -->
 
     <table border="solid" align="left">
       <thead>
@@ -81,7 +89,7 @@
         </tr>
       </thead>
 
-      <tbody>
+      <tbody :key="componentKey">
         <tr v-for="compra in compras" :key="compra.ide_compra">
           <td style="width: 10px; text-align: right">
             {{ compra.ide_compra }}
@@ -135,12 +143,33 @@ import { defineComponent } from "vue";
 import axios from "axios";
 import { ref } from "vue";
 
+const columns = [
+  {
+    name: "name",
+    required: true,
+    label: "IDE",
+    align: "left",
+    field: "ide_compra",
+    sortable: true,
+  },
+  {
+    name: "produto",
+    align: "center",
+    label: "Produto",
+    field: "nom_produto",
+    sortable: true,
+  },
+  { name: "qtd", label: "QTD", field: "qtd_produto", sortable: true },
+  { name: "dat_compra", label: "Data da Compra", field: "dat_compra" },
+];
+
 export default defineComponent({
   setup() {
     return {
       modelusuario: ref(null),
       modelproduto: ref(null),
       showdelete: ref(false),
+      columns,
     };
   },
   created() {
@@ -179,6 +208,7 @@ export default defineComponent({
       usuarios: [],
       compras: [],
       deleteCompraId: -1,
+      componentKey: 0,
     };
   },
   methods: {
@@ -190,15 +220,13 @@ export default defineComponent({
         timeZone: "UTC",
       }).format(date);
     },
-    forceRender() {
-      this.componentKey += 1;
-    },
     atribuiUsuario(usuario) {
       this.modelusuario = usuario;
+      this.$forceUpdate(this.compras);
+      //this.$forceUpdate(this.modelusuario);
       this.carregaListacompras();
     },
     carregaListacompras() {
-      this.$forceUpdate(this.compras); //Força a atualização da lista de compras
       axios
         .post(
           "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
@@ -206,7 +234,8 @@ export default defineComponent({
         .then((res) => {
           console.log(res);
           this.compras = res.data;
-          this.forceRender();
+          //this.$forceUpdate(this.compras);
+          console.log(this.compras);
         })
         .catch((err) => {
           console.log(err);
@@ -252,7 +281,13 @@ export default defineComponent({
           nom_usuario_ultima_alteracao: this.nom_usuario_ultima_alteracao,
           dat_ultima_alteracao: this.dat_ultima_alteracao,
         })
-        .then(this.atribuiUsuario(this.modelusuario))
+        .then(
+          this.$router.push({
+            name: "compralist",
+            params: this.modelusuario.ide_usuario,
+          })
+        )
+        //this.atribuiUsuario(this.modelusuario))
         .catch((err) => {
           console.log(err.response);
         });

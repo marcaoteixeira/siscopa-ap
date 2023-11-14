@@ -68,7 +68,7 @@ const linksList = [
     title: "Extrato",
     caption: "extrato por funcionário",
     icon: "receipt_long",
-    link: "#/compraextrato",
+    link: "#/extratocompra",
   },
 ];
 

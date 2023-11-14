@@ -3,55 +3,30 @@
     <q-card class="my-card">
       <h6>Extrato Compras</h6>
       <q-select
-          :model-value="modelusuario"
-          @update:model-value="atribuiUsuario"
-          :options="usuarios"
-          option-value="ide_usuario"
-          option-label="nom_usuario"
-          hint="Usuário"
-        />
+        :model-value="modelusuario"
+        @update:model-value="atribuiUsuario"
+        :options="usuarios"
+        option-value="ide_usuario"
+        option-label="nom_usuario"
+        hint="Usuário"
+      />
       <div align="right">
-        <router-link :to="{
-                  name: 'pagarcompra',
-                  params: { id: modelusuario.ide_usuario },
-                }"
-              >
-          <q-btn
-            icon="add_circle"
-            label="Pagar"
-            push
-            color="primary"
-            class="my-button"
-          />
-        </router-link>
+        <!-- <router-link
+          :to="{
+            name: 'pagarcompra',
+            params: { id: modelusuario.ide_usuario },
+          }"
+        > -->
+        <q-btn
+          icon="add_circle"
+          label="Pagar"
+          push
+          color="primary"
+          class="my-button"
+        />
+        <!-- </router-link> -->
       </div>
-    <br />
-
-      <q-dialog v-model="showdelete" persistent>
-        <q-card>
-          <q-card-section class="row items-center">
-            <q-avatar
-              icon="delete_forever"
-              color="negative"
-              text-color="white"
-            />
-            <span class="q-ml-sm"
-              >Você tem certeza que deseja excluir a compra.
-              <b>{{ this.nomeProduto }}?</b>
-            </span>
-          </q-card-section>
-
-          <q-card-actions align="right">
-            <q-btn flat label="Cancelar" color="primary" v-close-popup />
-            <q-btn
-              flat
-              label="Excluir"
-              color="negative"
-              @click="deleteCompra()"
-            />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+      <br />
     </q-card>
     <table border="solid" align="left">
       <thead>
@@ -78,10 +53,13 @@
             {{ formatDate(compra.dat_compra) }}
           </td>
         </tr>
-        <tr><td colspan="5"><h6>Total: {{ formatNumber(modelTotal) }}</h6></td></tr>
+        <tr>
+          <td colspan="5">
+            <h6>Total: {{ formatNumber(modelTotal) }}</h6>
+          </td>
+        </tr>
       </tbody>
     </table>
-    
   </q-page>
 </template>
 
@@ -95,11 +73,10 @@ export default defineComponent({
     return {
       modelusuario: ref(null),
       modelTotal: ref(null),
-      showdelete: ref(false),
     };
   },
   created() {
-     axios
+    axios
       .post("http://localhost:8080/usuario/list")
       .then((res) => {
         console.log(res);
@@ -117,17 +94,16 @@ export default defineComponent({
     };
   },
   methods: {
-
     totalCompras() {
       var total = 0;
       if (this.compras == [] || this.compras.length == 0) return 5;
-      for ( var i = 0; i < this.compras.length; i++ ){
-        total += (this.compras[i].num_preco * this.compras[i].qtd_produto);
+      for (var i = 0; i < this.compras.length; i++) {
+        total += this.compras[i].num_preco * this.compras[i].qtd_produto;
         //total += (this.compras.num_preco[i])
-      } 
+      }
       return total;
     },
-   formatDate(dateString) {
+    formatDate(dateString) {
       const date = new Date(dateString);
       return new Intl.DateTimeFormat("pt-BR", {
         dateStyle: "short",
@@ -140,7 +116,7 @@ export default defineComponent({
       this.carregaListacompras();
     },
     carregaListacompras() {
-      console.log('oi ' + this.modelusuario.ide_usuario);
+      console.log("oi " + this.modelusuario.ide_usuario);
       axios
         .post(
           "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
@@ -156,6 +132,9 @@ export default defineComponent({
         });
     },
     formatNumber(vnumber) {
+      if (vnumber == null) {
+        return 0;
+      }
       const formattedNumber = vnumber.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL",
@@ -164,26 +143,6 @@ export default defineComponent({
     },
     clearpage() {
       this.$router.go("/produto/produtoupdate");
-    },
-    showModalcompra(ide_compra, nom_produto) {
-      this.deleteCompraId = ide_compra;
-      this.nomeProduto = nom_produto;
-      //console.log(this.nomeUsuario);
-      this.showdelete = true;
-    },
-    deleteCompra() {
-      axios
-        .delete("http://localhost:8080/compra/delete/" + this.deleteCompraId)
-        .then(
-          (this.showdelete = false),
-          (this.compras = this.compras.filter(
-            (c) => c.ide_compra != this.deleteCompraId
-          ))
-        )
-        .catch((error) => {
-          console.log(error);
-          this.showdelete = ref(false);
-        });
     },
   },
 });
