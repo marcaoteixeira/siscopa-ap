@@ -105,6 +105,7 @@ export default defineComponent({
       .post("http://localhost:8080/compra/list/" + this.$route.params.id)
       .then((res) => {
         console.log(res);
+        console.log(this.$route.params.id);
         this.compras = res.data;
       })
       .catch((err) => {
@@ -115,6 +116,7 @@ export default defineComponent({
     return {
       usuario: "",
       compras: [],
+      usuarios: [],
       deleteCompraId: -1,
     };
   },

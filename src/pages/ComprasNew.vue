@@ -284,7 +284,7 @@ export default defineComponent({
         .then(
           this.$router.push({
             name: "compralist",
-            params: this.modelusuario.ide_usuario,
+            params: { id: this.modelusuario.ide_usuario },
           })
         )
         //this.atribuiUsuario(this.modelusuario))
