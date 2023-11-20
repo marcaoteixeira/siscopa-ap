@@ -78,7 +78,7 @@
       color="grey"
     /> -->
 
-    <table border="solid" align="left">
+    <!-- <table border="solid" align="left">
       <thead>
         <tr>
           <th>IDE</th>
@@ -134,7 +134,7 @@
           />
         </q-card-actions>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
   </q-page>
 </template>
 
