@@ -97,7 +97,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://localhost:8080/produto/list")
+      .post("http://dc-386879:8080/produto/list")
       .then((res) => {
         console.log(res);
         this.produtos = res.data;
@@ -131,7 +131,7 @@ export default defineComponent({
     },
     deleteProduto() {
       axios
-        .delete("http://localhost:8080/produto/delete/" + this.deleteProdutoId)
+        .delete("http://dc-386879:8080/produto/delete/" + this.deleteProdutoId)
         .then((this.showdelete = false), this.clearpage())
         .catch((error) => {
           console.log(error);

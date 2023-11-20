@@ -68,7 +68,7 @@ export default defineComponent({
       console.log(agora);
       //this.$swal('Cadastro com Sucesso!');
       axios
-        .post("http://localhost:8080/produto/new", {
+        .post("http://dc-386879:8080/produto/new", {
           nom_produto: this.nom_produto,
           num_preco: this.num_preco,
           nom_usuario_criador: this.nom_usuario_criador,

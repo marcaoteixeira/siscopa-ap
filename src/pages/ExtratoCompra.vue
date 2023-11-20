@@ -99,7 +99,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://localhost:8080/usuario/list")
+      .post("http://dc-386879:8080/usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -142,7 +142,7 @@ export default defineComponent({
       console.log("oi " + this.modelusuario.ide_usuario);
       axios
         .post(
-          "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
+          "http://dc-386879:8080/compra/list/" + this.modelusuario.ide_usuario
         )
         .then((res) => {
           console.log(res);
@@ -162,7 +162,7 @@ export default defineComponent({
       const agora = new Date();
       console.log(agora);
       axios
-        .put("http://localhost:8080/compra/pagar/", {
+        .put("http://dc-386879:8080/compra/pagar/", {
           ide_usuario: this.modelusuario.ide_usuario,
           dat_ultima_alteracao: agora,
         })

@@ -90,7 +90,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://localhost:8080/usuario/list")
+      .post("http://dc-386879:8080/usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -102,7 +102,7 @@ export default defineComponent({
         console.log(err);
       });
     axios
-      .post("http://localhost:8080/compra/list/" + this.$route.params.id)
+      .post("http://dc-386879:8080/compra/list/" + this.$route.params.id)
       .then((res) => {
         console.log(res);
         console.log(this.$route.params.id);
@@ -147,7 +147,7 @@ export default defineComponent({
     },
     deleteCompra() {
       axios
-        .delete("http://localhost:8080/compra/delete/" + this.deleteCompraId)
+        .delete("http://dc-386879:8080/compra/delete/" + this.deleteCompraId)
         .then(
           (this.showdelete = false),
           (this.compras = this.compras.filter(

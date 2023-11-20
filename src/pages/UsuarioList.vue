@@ -138,7 +138,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://localhost:8080/usuario/list")
+      .post("http://dc-386879:8080/usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -165,7 +165,7 @@ export default defineComponent({
     },
     deleteUsuario() {
       axios
-        .delete("http://localhost:8080/usuario/delete/" + this.deleteUsuarioId)
+        .delete("http://dc-386879:8080/usuario/delete/" + this.deleteUsuarioId)
         .then((this.showdelete = false), this.clearpage())
         .catch((error) => {
           console.log(error);

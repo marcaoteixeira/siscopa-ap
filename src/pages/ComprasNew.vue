@@ -174,7 +174,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://localhost:8080/produto/list")
+      .post("http://dc-386879:8080/produto/list")
       .then((res) => {
         console.log(res);
         this.produtos = res.data;
@@ -183,7 +183,7 @@ export default defineComponent({
         console.log(err);
       });
     axios
-      .post("http://localhost:8080/usuario/list")
+      .post("http://dc-386879:8080/usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -229,7 +229,7 @@ export default defineComponent({
     carregaListacompras() {
       axios
         .post(
-          "http://localhost:8080/compra/list/" + this.modelusuario.ide_usuario
+          "http://dc-386879:8080/compra/list/" + this.modelusuario.ide_usuario
         )
         .then((res) => {
           console.log(res);
@@ -250,7 +250,7 @@ export default defineComponent({
     },
     deleteCompra() {
       axios
-        .delete("http://localhost:8080/compra/delete/" + this.deleteCompraId)
+        .delete("http://dc-386879:8080/compra/delete/" + this.deleteCompraId)
         .then(
           (this.showdelete = false),
           (this.compras = this.compras.filter(
@@ -270,7 +270,7 @@ export default defineComponent({
       console.log(agora);
       //this.$swal('Cadastro com Sucesso!');
       axios
-        .post("http://localhost:8080/compra/new", {
+        .post("http://dc-386879:8080/compra/new", {
           ide_produto: this.modelproduto.ide_produto,
           ide_usuario: this.modelusuario.ide_usuario,
           qtd_produto: this.qtd_produto,
