@@ -119,7 +119,7 @@ export default defineComponent({
   methods: {
     totalCompras() {
       var total = 0;
-      if (this.compras == [] || this.compras.length == 0) return 5;
+      if (this.compras == [] || this.compras.length == 0) return 0;
       for (var i = 0; i < this.compras.length; i++) {
         total += this.compras[i].num_preco * this.compras[i].qtd_produto;
         //total += (this.compras.num_preco[i])
@@ -152,6 +152,7 @@ export default defineComponent({
         .catch((err) => {
           console.log(err);
           this.compras = [];
+          this.modelTotal = this.totalCompras();
         });
     },
     showModalpgto() {
@@ -165,7 +166,7 @@ export default defineComponent({
           ide_usuario: this.modelusuario.ide_usuario,
           dat_ultima_alteracao: agora,
         })
-        .then((this.showpgto = false), this.clearpage())
+        .then((this.showpgto = false), (this.modelTotal = 0), this.clearpage())
         .catch((err) => {
           console.log(err);
           this.showpgto = false;
