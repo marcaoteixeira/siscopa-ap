@@ -23,6 +23,7 @@
           push
           color="primary"
           class="my-button"
+          @click="pagarCompra()"
         />
         <!-- </router-link> -->
       </div>
@@ -129,6 +130,19 @@ export default defineComponent({
         .catch((err) => {
           console.log(err);
           this.compras = [];
+        });
+    },
+    pagarCompra() {
+      const agora = new Date();
+      console.log(agora);
+      axios
+        .put("http://localhost:8080/compra/pagar/", {
+          ide_usuario: this.modelusuario.ide_usuario,
+          dat_ultima_alteracao: agora,
+        })
+        .then(this.$router.push({ name: "extratocompra" }))
+        .catch((err) => {
+          console.log(err);
         });
     },
     formatNumber(vnumber) {
