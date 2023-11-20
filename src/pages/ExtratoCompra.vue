@@ -10,21 +10,42 @@
         option-label="nom_usuario"
         hint="Usuário"
       />
+
       <div align="right">
-        <!-- <router-link
-          :to="{
-            name: 'pagarcompra',
-            params: { id: modelusuario.ide_usuario },
-          }"
-        > -->
         <q-btn
           icon="add_circle"
           label="Pagar"
           push
           color="primary"
           class="my-button"
-          @click="pagarCompra()"
+          @click="showModalpgto()"
         />
+        <!-- <router-link
+          :to="{
+            name: 'pagarcompra',
+            params: { id: modelusuario.ide_usuario },
+          }"
+        > -->
+
+        <q-dialog v-model="showpgto" persistent>
+          <q-card>
+            <q-card-section class="row items-center">
+              <q-avatar icon="payments" color="primary" text-color="white" />
+              <span class="q-ml-sm"
+                >Você tem certeza que deseja confirmar o pagamento?
+              </span>
+            </q-card-section>
+            <q-card-actions align="right">
+              <q-btn flat label="Cancelar" color="negative" v-close-popup />
+              <q-btn
+                flat
+                label="Pagar"
+                color="primary"
+                @click="pagarCompra()"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
         <!-- </router-link> -->
       </div>
       <br />
@@ -92,6 +113,7 @@ export default defineComponent({
       usuarios: [],
       compras: [],
       deleteCompraId: -1,
+      showpgto: false,
     };
   },
   methods: {
@@ -132,6 +154,9 @@ export default defineComponent({
           this.compras = [];
         });
     },
+    showModalpgto() {
+      this.showpgto = true;
+    },
     pagarCompra() {
       const agora = new Date();
       console.log(agora);
@@ -140,9 +165,10 @@ export default defineComponent({
           ide_usuario: this.modelusuario.ide_usuario,
           dat_ultima_alteracao: agora,
         })
-        .then(this.$router.push({ name: "extratocompra" }))
+        .then((this.showpgto = false), this.clearpage())
         .catch((err) => {
           console.log(err);
+          this.showpgto = false;
         });
     },
     formatNumber(vnumber) {
@@ -156,7 +182,7 @@ export default defineComponent({
       return formattedNumber;
     },
     clearpage() {
-      this.$router.go("/produto/produtoupdate");
+      this.$router.go("/extratocompra");
     },
   },
 });
