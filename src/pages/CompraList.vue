@@ -161,6 +161,7 @@ export default defineComponent({
     },
   },
 });
+//teste
 </script>
 <style scoped>
 .my-card {
