@@ -66,9 +66,15 @@ const linksList = [
   },
   {
     title: "Extrato",
-    caption: "extrato por funcionário",
+    caption: "extrato por usuário",
     icon: "receipt_long",
     link: "#/extratocompra",
+  },
+  {
+    title: "Total Resumo",
+    caption: "Totais por usuários",
+    icon: "monetization_on",
+    link: "#/totalcompra",
   },
 ];
 

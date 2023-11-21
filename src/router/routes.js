@@ -60,6 +60,11 @@ const routes = [
         path: "/extratocompra",
         component: () => import("src/pages/ExtratoCompra.vue"),
       },
+      {
+        name: "totalcompra",
+        path: "/totalcompra",
+        component: () => import("src/pages/TotalCompra.vue"),
+      },
     ],
   },
   // Always leave this as last one,
