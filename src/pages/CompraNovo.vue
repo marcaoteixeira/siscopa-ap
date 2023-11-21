@@ -11,8 +11,8 @@
               option-value="ide_usuario"
               option-label="nom_usuario"
               hint="Usuário"
-           />
-           <q-select
+            />
+            <q-select
               v-model="modelproduto"
               :options="produtos"
               option-value="ide_produto"
@@ -65,7 +65,7 @@ export default defineComponent({
 
   created() {
     axios
-      .post("http://dc-386879:8080/produto/list")
+      .post(process.env.api_back + "produto/list")
       .then((res) => {
         console.log(res);
         this.produtos = res.data;
@@ -74,7 +74,7 @@ export default defineComponent({
         console.log(err);
       });
     axios
-      .post("http://dc-386879:8080/usuario/list")
+      .post(process.env.api_back + "usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -82,7 +82,7 @@ export default defineComponent({
       .catch((err) => {
         console.log(err);
       });
-    },
+  },
 
   data() {
     return {
@@ -111,7 +111,7 @@ export default defineComponent({
         //timeZone: "UTC",
       }).format(date);
     },
-    
+
     clearpage() {
       this.$router.go("/produto/comprasnew");
     },
@@ -120,7 +120,7 @@ export default defineComponent({
       console.log(agora);
       //this.$swal('Cadastro com Sucesso!');
       axios
-        .post("http://dc-386879:8080/compra/new", {
+        .post(process.env.api_back + "compra/new", {
           ide_produto: this.modelproduto.ide_produto,
           ide_usuario: this.modelusuario.ide_usuario,
           qtd_produto: this.qtd_produto,

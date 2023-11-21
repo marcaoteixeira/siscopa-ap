@@ -174,16 +174,17 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://dc-386879:8080/produto/list")
+      .post(process.env.api_back + "produto/list")
       .then((res) => {
         console.log(res);
+        console.log(useapi);
         this.produtos = res.data;
       })
       .catch((err) => {
         console.log(err);
       });
     axios
-      .post("http://dc-386879:8080/usuario/list")
+      .post(process.env.api_back + "usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -222,6 +223,7 @@ export default defineComponent({
     },
     atribuiUsuario(usuario) {
       this.modelusuario = usuario;
+      console.log(process.env.API_PROD);
       this.$forceUpdate(this.compras);
       //this.$forceUpdate(this.modelusuario);
       this.carregaListacompras();
@@ -229,7 +231,7 @@ export default defineComponent({
     carregaListacompras() {
       axios
         .post(
-          "http://dc-386879:8080/compra/list/" + this.modelusuario.ide_usuario
+          process.env.api_back + "compra/list/" + this.modelusuario.ide_usuario
         )
         .then((res) => {
           console.log(res);
@@ -250,7 +252,7 @@ export default defineComponent({
     },
     deleteCompra() {
       axios
-        .delete("http://dc-386879:8080/compra/delete/" + this.deleteCompraId)
+        .delete(process.env.api_back + "compra/delete/" + this.deleteCompraId)
         .then(
           (this.showdelete = false),
           (this.compras = this.compras.filter(
@@ -270,7 +272,7 @@ export default defineComponent({
       console.log(agora);
       //this.$swal('Cadastro com Sucesso!');
       axios
-        .post("http://dc-386879:8080/compra/new", {
+        .post(process.env.api_back + "compra/new", {
           ide_produto: this.modelproduto.ide_produto,
           ide_usuario: this.modelusuario.ide_usuario,
           qtd_produto: this.qtd_produto,

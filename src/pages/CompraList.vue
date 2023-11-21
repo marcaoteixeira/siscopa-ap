@@ -2,8 +2,18 @@
   <q-page class="my-page">
     <q-card class="my-card">
       <span v-for="usuario in usuarios" :key="usuario.ide_usuario">
-        <h5>{{ usuario.nom_usuario }}</h5></span
-      >
+        <h5>
+          {{ usuario.nom_usuario }}
+          <q-select
+            :model-value="modelusuario"
+            @update:model-value="atribuiUsuario"
+            :options="usuarios"
+            option-value="ide_usuario"
+            option-label="nom_usuario"
+            hint="Usuário"
+          /></h5
+      ></span>
+
       <div align="right">
         <router-link :to="{ name: 'comprasnew' }">
           <q-btn
@@ -90,7 +100,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://dc-386879:8080/usuario/list")
+      .post(process.env.api_back + "usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -102,7 +112,7 @@ export default defineComponent({
         console.log(err);
       });
     axios
-      .post("http://dc-386879:8080/compra/list/" + this.$route.params.id)
+      .post(process.env.api_back + "compra/list/" + this.$route.params.id)
       .then((res) => {
         console.log(res);
         console.log(this.$route.params.id);
@@ -147,7 +157,7 @@ export default defineComponent({
     },
     deleteCompra() {
       axios
-        .delete("http://dc-386879:8080/compra/delete/" + this.deleteCompraId)
+        .delete(process.env.api_back + "compra/delete/" + this.deleteCompraId)
         .then(
           (this.showdelete = false),
           (this.compras = this.compras.filter(

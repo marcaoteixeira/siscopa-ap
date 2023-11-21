@@ -54,7 +54,7 @@ import { ref } from "vue";
 export default defineComponent({
   created() {
     axios
-      .get("http://dc-386879:8080/usuario/" + this.$route.params.id)
+      .get(process.env.api_back + "usuario/" + this.$route.params.id)
       .then((res) => {
         console.log(res);
         this.ide_usuario = res.data.ide_usuario;
@@ -104,7 +104,7 @@ export default defineComponent({
       const agora = new Date();
       console.log(agora);
       axios
-        .put("http://dc-386879:8080/usuario/update", {
+        .put(process.env.api_back + "usuario/update", {
           ide_usuario: this.ide_usuario,
           nom_usuario: this.nom_usuario,
           tex_login: this.tex_login,

@@ -1,4 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+
+// API Desenvolvimento
+const useapi = process.env.API_DEV;
+// API Produção
+//const useapi = process.env.API_PROD
+
 const routes = [
   {
     path: "/",

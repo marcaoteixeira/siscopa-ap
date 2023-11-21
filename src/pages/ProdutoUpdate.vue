@@ -42,7 +42,7 @@ import { ref } from "vue";
 export default defineComponent({
   created() {
     axios
-      .get("http://dc-386879:8080/produto/" + this.$route.params.id)
+      .get(process.env.api_back + "produto/" + this.$route.params.id)
       .then((res) => {
         console.log(res);
         this.ide_produto = res.data.ide_produto;
@@ -88,7 +88,7 @@ export default defineComponent({
       const agora = new Date();
       console.log(agora);
       axios
-        .put("http://dc-386879:8080/produto/update", {
+        .put(process.env.api_back + "produto/update", {
           ide_produto: this.ide_produto,
           nom_produto: this.nom_produto,
           num_preco: this.num_preco,

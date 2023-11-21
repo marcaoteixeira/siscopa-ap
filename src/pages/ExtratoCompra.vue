@@ -99,7 +99,7 @@ export default defineComponent({
   },
   created() {
     axios
-      .post("http://dc-386879:8080/usuario/list")
+      .post(process.env.api_back + "usuario/list")
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -142,7 +142,7 @@ export default defineComponent({
       console.log("oi " + this.modelusuario.ide_usuario);
       axios
         .post(
-          "http://dc-386879:8080/compra/list/" + this.modelusuario.ide_usuario
+          process.env.api_back + "compra/list/" + this.modelusuario.ide_usuario
         )
         .then((res) => {
           console.log(res);
@@ -162,7 +162,7 @@ export default defineComponent({
       const agora = new Date();
       console.log(agora);
       axios
-        .put("http://dc-386879:8080/compra/pagar/", {
+        .put(process.env.api_back + "compra/pagar/", {
           ide_usuario: this.modelusuario.ide_usuario,
           dat_ultima_alteracao: agora,
         })
@@ -187,6 +187,7 @@ export default defineComponent({
     },
   },
 });
+//comentario commit
 </script>
 <style scoped>
 .my-card {

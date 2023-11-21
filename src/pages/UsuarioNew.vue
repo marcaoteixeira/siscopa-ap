@@ -82,7 +82,7 @@ export default defineComponent({
       console.log(agora);
       //this.$swal('Cadastro com Sucesso!');
       axios
-        .post("http://dc-386879:8080/usuario/new", {
+        .post(process.env.api_back + "usuario/new", {
           nom_usuario: this.nom_usuario,
           tex_login: this.tex_login,
           num_telefone: this.num_telefone,
