@@ -10,7 +10,13 @@
         option-label="nom_usuario"
         hint="Usuário"
       />
-
+      <div>
+        <q-checkbox
+        v-model="ind_pago"
+        left-label
+        label="Pago"
+        />
+      </div>
       <div align="right">
         <q-btn
           icon="add_circle"
@@ -114,6 +120,7 @@ export default defineComponent({
       compras: [],
       deleteCompraId: -1,
       showpgto: false,
+      ind_pago: false,
     };
   },
   methods: {
@@ -139,11 +146,15 @@ export default defineComponent({
       this.carregaListacompras();
     },
     carregaListacompras() {
-      console.log("oi " + this.modelusuario.ide_usuario);
+      console.log("ei " + this.modelusuario.ide_usuario + this.ind_pago);
       axios
-        .post(
+        /*.post(
           process.env.api_back + "compra/list/" + this.modelusuario.ide_usuario
-        )
+        )*/
+        .post(process.env.api_back + "compra/pesquisa", {
+          ide_usuario: this.modelusuario.ide_usuario,
+          ind_pago: this.ind_pago,
+        })
         .then((res) => {
           console.log(res);
           this.compras = res.data;
