@@ -177,7 +177,6 @@ export default defineComponent({
       .post(process.env.api_back + "produto/list")
       .then((res) => {
         console.log(res);
-        console.log(useapi);
         this.produtos = res.data;
       })
       .catch((err) => {
