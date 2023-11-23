@@ -13,6 +13,7 @@
       <div>
         <q-checkbox
         v-model="ind_pago"
+        @update:model-value="carregaListacompras"
         left-label
         label="Pago"
         />
