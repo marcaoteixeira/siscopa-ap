@@ -4,15 +4,16 @@
       <span v-for="usuario in usuarios" :key="usuario.ide_usuario">
         <h5>
           {{ usuario.nom_usuario }}
-          <q-select
+          <!-- <q-select
             :model-value="modelusuario"
             @update:model-value="atribuiUsuario"
             :options="usuarios"
             option-value="ide_usuario"
             option-label="nom_usuario"
             hint="Usuário"
-          /></h5
-      ></span>
+          />-->
+        </h5></span
+      >
 
       <div align="right">
         <router-link :to="{ name: 'comprasnew' }">

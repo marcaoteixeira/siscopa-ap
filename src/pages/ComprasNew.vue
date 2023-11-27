@@ -44,7 +44,8 @@
             {{ produto.nom_produto }}
           </option>
         </select> </span
-      >--><br />
+      >-->
+        <br />
         <q-input
           outlined
           v-model="qtd_produto"
@@ -77,42 +78,7 @@
       row-key="ide_compra"
       color="grey"
     /> -->
-
-    <!-- <table border="solid" align="left">
-      <thead>
-        <tr>
-          <th>IDE</th>
-          <th>Produto</th>
-          <th>QTD.</th>
-          <th>Data Compra</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-
-      <tbody :key="componentKey">
-        <tr v-for="compra in compras" :key="compra.ide_compra">
-          <td style="width: 10px; text-align: right">
-            {{ compra.ide_compra }}
-          </td>
-          <td style="width: 450px">{{ compra.nom_produto }}</td>
-          <td style="width: 20px; text-align: center">
-            {{ compra.qtd_produto }}
-          </td>
-          <td style="width: 280px; text-align: right">
-            {{ formatDate(compra.dat_compra) }}
-          </td>
-          <td style="width: 30px">
-            <q-btn
-              push
-              color="negative"
-              icon="delete_forever"
-              title="Excluir"
-              @click="showModalcompra(compra.ide_compra, compra.nom_produto)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <!--<GridCompras /> -->
     <br />
     <q-dialog v-model="showdelete" persistent>
       <q-card>
@@ -134,11 +100,12 @@
           />
         </q-card-actions>
       </q-card>
-    </q-dialog> -->
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
+//import GridCompras from "src/components/GridCompras.vue";
 import { defineComponent } from "vue";
 import axios from "axios";
 import { ref } from "vue";
@@ -164,6 +131,10 @@ const columns = [
 ];
 
 export default defineComponent({
+  name: "ComprasNew",
+  components: {
+    //GridCompras,
+  },
   setup() {
     return {
       modelusuario: ref(null),
@@ -223,7 +194,7 @@ export default defineComponent({
     atribuiUsuario(usuario) {
       this.modelusuario = usuario;
       console.log(process.env.API_PROD);
-      this.$forceUpdate(this.compras);
+      this.$forceUpdate(this.modelusuario);
       //this.$forceUpdate(this.modelusuario);
       this.carregaListacompras();
     },
@@ -235,7 +206,7 @@ export default defineComponent({
         .then((res) => {
           console.log(res);
           this.compras = res.data;
-          //this.$forceUpdate(this.compras);
+          //this.$forceUpdate(this.modelusuario);
           console.log(this.compras);
         })
         .catch((err) => {
