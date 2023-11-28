@@ -1,30 +1,29 @@
 <template>
   <q-page class="my-page">
     <q-card class="my-card">
-      <span v-for="usuario in usuarios" :key="usuario.ide_usuario">
+      <!--  <span v-for="usuario in usuarios" :key="usuario.ide_usuario">
         <h5>
           {{ usuario.nom_usuario }}
-          <!-- <q-select
-            :model-value="modelusuario"
-            @update:model-value="atribuiUsuario"
-            :options="usuarios"
-            option-value="ide_usuario"
-            option-label="nom_usuario"
-            hint="Usuário"
-          />-->
-        </h5></span
-      >
+        </h5>
+      </span> -->
+      <q-select
+        v-model="modelusuario"
+        @update:model-value="atribuiUsuario"
+        :options="usuarios"
+        option-value="ide_usuario"
+        option-label="nom_usuario"
+        hint="Usuário"
+      />
 
       <div align="right">
-        <router-link :to="{ name: 'comprasnew' }">
-          <q-btn
-            icon="add_circle"
-            label="Novo"
-            push
-            color="primary"
-            class="my-button"
-          />
-        </router-link>
+        <q-btn
+          icon="add_circle"
+          label="Novo"
+          push
+          color="primary"
+          class="my-button"
+          @click="novacompra"
+        />
       </div>
     </q-card>
     <hr />
@@ -96,8 +95,14 @@ import { ref } from "vue";
 export default defineComponent({
   setup() {
     return {
+      modelusuario: ref(null),
+      modelproduto: ref(null),
       showdelete: ref(false),
     };
+    /*setup() {
+    return {
+      showdelete: ref(false),
+    };*/
   },
   created() {
     axios
@@ -105,7 +110,7 @@ export default defineComponent({
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
-        this.usuarios = this.usuarios.filter(
+        this.modelusuario = this.usuarios.find(
           (c) => c.ide_usuario == this.$route.params.id
         );
       })
@@ -150,6 +155,28 @@ export default defineComponent({
         timeZone: "UTC",
       }).format(date);
     },
+    atribuiUsuario(usuario) {
+      this.modelusuario = usuario;
+      console.log(process.env.API_PROD);
+      //this.$forceUpdate(this.modelusuario);
+      this.carregaListacompras();
+    },
+    carregaListacompras() {
+      axios
+        .post(
+          process.env.api_back + "compra/list/" + this.modelusuario.ide_usuario
+        )
+        .then((res) => {
+          console.log(res);
+          this.compras = res.data;
+          //this.$forceUpdate(this.modelusuario);
+          console.log(this.compras);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.compras = [];
+        });
+    },
     showModalcompra(ide_compra, nom_produto) {
       this.deleteCompraId = ide_compra;
       this.nomeProduto = nom_produto;
@@ -169,6 +196,12 @@ export default defineComponent({
           console.log(error);
           this.showdelete = ref(false);
         });
+    },
+    novacompra() {
+      this.$router.push({
+        name: "comprasnew",
+        params: { id: this.modelusuario.ide_usuario },
+      });
     },
   },
 });

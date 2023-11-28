@@ -42,7 +42,7 @@ const routes = [
       },
       {
         name: "comprasnew",
-        path: "/comprasnew",
+        path: "/comprasnew/:id",
         component: () => import("pages/ComprasNew.vue"),
       },
       {

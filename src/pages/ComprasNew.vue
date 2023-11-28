@@ -158,6 +158,9 @@ export default defineComponent({
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
+        this.modelusuario = this.usuarios.find(
+          (c) => c.ide_usuario == this.$route.params.id
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -234,9 +237,7 @@ export default defineComponent({
           this.showdelete = ref(false);
         });
     },
-    clearpage() {
-      this.$router.go("/produto/comprasnew");
-    },
+
     cadastro() {
       const agora = new Date();
       console.log(agora);
