@@ -245,6 +245,8 @@ export default defineComponent({
       axios
         .post(process.env.api_back + "compra/new", {
           ide_produto: this.modelproduto.ide_produto,
+          nom_produto: this.modelproduto.nom_produto,
+          num_preco: this.modelproduto.num_preco,
           ide_usuario: this.modelusuario.ide_usuario,
           qtd_produto: this.qtd_produto,
           dat_compra: this.dat_compra,

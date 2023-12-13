@@ -61,9 +61,9 @@ const routes = [
         component: () => import("src/pages/ExtratoCompra.vue"),
       },
       {
-        name: "totalcompra",
-        path: "/totalcompra",
-        component: () => import("src/pages/TotalCompra.vue"),
+        name: "totalresumo",
+        path: "/totalresumo",
+        component: () => import("src/pages/TotalResumo.vue"),
       },
     ],
   },

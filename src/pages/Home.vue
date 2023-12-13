@@ -74,7 +74,7 @@ const linksList = [
     title: "Total Resumo",
     caption: "Totais por usuários",
     icon: "monetization_on",
-    link: "#/totalcompra",
+    link: "#/totalresumo",
   },
 ];
 
