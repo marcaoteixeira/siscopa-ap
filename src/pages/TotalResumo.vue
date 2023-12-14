@@ -7,7 +7,6 @@
         <thead>
           <tr>
             <th>Usuário</th>
-            <th>Telefone</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -15,8 +14,12 @@
         <tbody>
           <tr v-for="usuario in usuarios" :key="usuario.ide_usuario">
             <td style="width: 320px">{{ usuario.nom_usuario }}</td>
-            <td style="width: 80px">{{ usuario.num_telefone }}</td>
-            <td style="width: 80px">{{ usuario.total }}</td>
+            <span v-if="usuario.total > 0">
+              <td class="my-totaln" style="width: 80px">{{ formatNumber(usuario.total) }}</td>
+            </span>
+            <span v-else-if="usuario.total <= 0">
+              <td class="my-totalp" style="width: 80px">{{ formatNumber(-usuario.total) }}</td>
+            </span>
           </tr>
         </tbody>
       </table>
@@ -56,7 +59,16 @@ export default defineComponent({
     };
   },
   methods: {
-    
+    formatNumber(vnumber) {
+      if (vnumber == null) {
+        return 0;
+      }
+      const formattedNumber = vnumber.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
+      return formattedNumber;
+    },
   },
 });
 </script>
@@ -73,6 +85,12 @@ export default defineComponent({
 .my-button {
   text-align: right;
   margin-bottom: 10px;
+}
+.my-totaln {
+  color: red;
+}
+.my-totalp {
+  color: green;
 }
 table,
 th,
