@@ -12,13 +12,21 @@
           hint="Usuário"
         />
         <q-select
-          v-model="modelproduto"
+          :model-value="modelproduto"
+          @update:model-value="atribuiPreco"
           :options="produtos"
           option-value="ide_produto"
           option-label="nom_produto"
           hint="Produto"
-          name="ide_produto"
         />
+        <span>
+          <q-input
+            outlined
+            v-model="modelpreco"
+            label="Preço"
+            name="num_preco"
+          />
+        </span>
 
         <!-- <span>Escolha o Usuário:</span>&nbsp;
         <select class="my-select" name="ide_usuario" v-model="ide_usuario">
@@ -46,6 +54,7 @@
         </select> </span
       >-->
         <br />
+
         <q-input
           outlined
           v-model="qtd_produto"
@@ -55,6 +64,7 @@
           name="qtd_produto"
           style="max-width: 90px"
         /><br />
+
         <q-input
           v-model="dat_compra"
           filled
@@ -175,6 +185,7 @@ export default defineComponent({
       dat_compra: "",
       ind_pago: "",
       nom_usuario_criador: "",
+      nom_produto: "",
       dat_criacao: "",
       nom_usuario_ultima_alteracao: "",
       dat_ultima_alteracao: "",
@@ -183,6 +194,7 @@ export default defineComponent({
       compras: [],
       deleteCompraId: -1,
       componentKey: 0,
+      modelpreco: 0,
     };
   },
   methods: {
@@ -193,6 +205,11 @@ export default defineComponent({
         //timeStyle: "short",
         timeZone: "UTC",
       }).format(date);
+    },
+    atribuiPreco(produto) {
+      this.modelproduto = produto;
+      console.log(this.modelproduto.num_preco);
+      this.modelpreco = this.modelproduto.num_preco;
     },
     atribuiUsuario(usuario) {
       this.modelusuario = usuario;
@@ -240,13 +257,19 @@ export default defineComponent({
 
     cadastro() {
       const agora = new Date();
+      var preco = 0;
+      if (this.modelproduto.nom_produto == "Crédito") {
+        preco = -this.modelpreco;
+      } else {
+        preco = this.modelproduto.num_preco;
+      }
       console.log(agora);
       //this.$swal('Cadastro com Sucesso!');
       axios
         .post(process.env.api_back + "compra/new", {
           ide_produto: this.modelproduto.ide_produto,
           nom_produto: this.modelproduto.nom_produto,
-          num_preco: this.modelproduto.num_preco,
+          num_preco: preco,
           ide_usuario: this.modelusuario.ide_usuario,
           qtd_produto: this.qtd_produto,
           dat_compra: this.dat_compra,

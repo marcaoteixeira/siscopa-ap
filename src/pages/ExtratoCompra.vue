@@ -12,10 +12,10 @@
       />
       <div>
         <q-checkbox
-        v-model="ind_pago"
-        @update:model-value="carregaListacompras"
-        left-label
-        label="Pago"
+          v-model="ind_pago"
+          @update:model-value="carregaListacompras"
+          left-label
+          label="Pago"
         />
       </div>
       <div align="right">
@@ -84,7 +84,12 @@
         </tr>
         <tr>
           <td colspan="5">
-            <h6>Total: {{ formatNumber(modelTotal) }}</h6>
+            <span v-if="modelTotal > 0">
+              <h6 class="my-totaln">Total: {{ formatNumber(modelTotal) }}</h6>
+            </span>
+            <span v-else-if="modelTotal <= 0">
+              <h6 class="my-totalp">Total: {{ formatNumber(-modelTotal) }}</h6>
+            </span>
           </td>
         </tr>
       </tbody>
@@ -214,6 +219,12 @@ export default defineComponent({
 .my-button {
   text-align: right;
   margin-bottom: 10px;
+}
+.my-totaln {
+  color: red;
+}
+.my-totalp {
+  color: green;
 }
 table,
 th,
