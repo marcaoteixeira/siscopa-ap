@@ -39,15 +39,15 @@
             </tr>
             <tr>
               <td colspan="2">
-                <h6 class="my-totaln">
-                  Total: {{ formatNumber(this.totalCompras()) }}
-                </h6>
+                <h8 class="my-totaln">
+                  <b>Total: {{ formatNumber(this.totalCompras()) }}</b>
+                </h8>
               </td>
             </tr>
           </tbody>
         </table>
+        <br />
       </div>
-      <br />
     </q-card>
   </q-page>
 </template>
@@ -77,6 +77,7 @@ export default defineComponent({
   },
   data() {
     return {
+      output: null,
       usuarios: [],
       deleteUsuarioId: -1,
     };
