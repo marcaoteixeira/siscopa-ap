@@ -21,6 +21,11 @@
               <td class="my-totalp" style="width: 80px">{{ formatNumber(-usuario.total) }}</td>
             </span>
           </tr>
+          <tr>
+          <td colspan="2">
+            <h6 class="my-totaln">Total: {{ formatNumber(this.totalCompras()) }}</h6>
+          </td>
+        </tr>
         </tbody>
       </table>
       <br />
@@ -68,6 +73,15 @@ export default defineComponent({
         currency: "BRL",
       });
       return formattedNumber;
+    },
+    totalCompras() {
+      var total = 0;
+      if (this.usuarios == [] || this.usuarios.length == 0) return 0;
+      for (var i = 0; i < this.usuarios.length; i++) {
+        total += this.usuarios[i].total;
+        //total += (this.compras.num_preco[i])
+      }
+      return total;
     },
   },
 });
