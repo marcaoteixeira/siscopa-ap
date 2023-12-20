@@ -1,36 +1,53 @@
 <template>
+  <div align="right">
+    <q-btn
+      push
+      color="black"
+      icon="print"
+      label="Imprimir"
+      @click="exportToPDF"
+      v-close-popup
+    />
+  </div>
+  <hr />
+
   <q-page class="my-page">
     <q-card class="my-card">
       <h6>Totais por Usuário</h6>
-      
-      <table border="solid" align="center">
-        <thead>
-          <tr>
-            <th>Usuário</th>
-            <th>Total</th>
-          </tr>
-        </thead>
+      <div id="total-resumo">
+        <table border="solid" align="center">
+          <thead>
+            <tr>
+              <th>Usuário</th>
+              <th>Total</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          <tr v-for="usuario in usuarios" :key="usuario.ide_usuario">
-            <td style="width: 320px">{{ usuario.nom_usuario }}</td>
-            <span v-if="usuario.total > 0">
-              <td class="my-totaln" style="width: 80px">{{ formatNumber(usuario.total) }}</td>
-            </span>
-            <span v-else-if="usuario.total <= 0">
-              <td class="my-totalp" style="width: 80px">{{ formatNumber(-usuario.total) }}</td>
-            </span>
-          </tr>
-          <tr>
-          <td colspan="2">
-            <h6 class="my-totaln">Total: {{ formatNumber(this.totalCompras()) }}</h6>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+          <tbody>
+            <tr v-for="usuario in usuarios" :key="usuario.ide_usuario">
+              <td style="width: 320px">{{ usuario.nom_usuario }}</td>
+              <span v-if="usuario.total > 0">
+                <td class="my-totaln" style="width: 80px">
+                  {{ formatNumber(usuario.total) }}
+                </td>
+              </span>
+              <span v-else-if="usuario.total <= 0">
+                <td class="my-totalp" style="width: 80px">
+                  {{ formatNumber(-usuario.total) }}
+                </td>
+              </span>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <h6 class="my-totaln">
+                  Total: {{ formatNumber(this.totalCompras()) }}
+                </h6>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <br />
-
-      
     </q-card>
   </q-page>
 </template>
@@ -39,6 +56,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import { ref } from "vue";
+import html2pdf from "html2pdf.js";
 
 export default defineComponent({
   setup() {
@@ -64,6 +82,12 @@ export default defineComponent({
     };
   },
   methods: {
+    exportToPDF() {
+      html2pdf(document.getElementById("total-resumo"), {
+        margin: 1,
+        filename: "totalresumo.pdf",
+      });
+    },
     formatNumber(vnumber) {
       if (vnumber == null) {
         return 0;
