@@ -13,6 +13,14 @@
 
   <q-page class="my-page">
     <q-card class="my-card">
+      <div>
+        <q-checkbox
+          v-model="ind_pago"
+          @update:model-value="carregaListaTotais"
+          left-label
+          label="Pago"
+        />
+      </div>
       <h6>Totais por Usuário</h6>
       <div id="total-resumo">
         <table border="solid" align="center">
@@ -66,7 +74,9 @@ export default defineComponent({
   },
   created() {
     axios
-      .post(process.env.api_back + "compra/pesquisatotal")
+      .post(process.env.api_back + "compra/pesquisatotal",{
+          ind_pago: this.ind_pago,
+        })
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -80,9 +90,23 @@ export default defineComponent({
       output: null,
       usuarios: [],
       deleteUsuarioId: -1,
+      ind_pago: 0,
     };
   },
   methods: {
+    carregaListaTotais() {
+      axios
+      .post(process.env.api_back + "compra/pesquisatotal", {
+          ind_pago: this.ind_pago,
+        })
+      .then((res) => {
+        console.log(res);
+        this.usuarios = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    },
     exportToPDF() {
       html2pdf(document.getElementById("total-resumo"), {
         margin: 1,

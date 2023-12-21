@@ -18,6 +18,22 @@
           label="Pago"
         />
       </div>
+      <q-input
+          v-model="dat_compra_inicio"
+          filled
+          type="date"
+          hint="Data Início"
+          name="dat_compra_inicio"
+          style="max-width: 150px"
+        />
+        <q-input
+          v-model="dat_compra_fim"
+          filled
+          type="date"
+          hint="Data Fim"
+          name="dat_compra_fim"
+          style="max-width: 150px"
+        />
       <div align="right">
         <q-btn
           icon="add_circle"
@@ -127,6 +143,8 @@ export default defineComponent({
       deleteCompraId: -1,
       showpgto: false,
       ind_pago: false,
+      dat_compra_inicio: "",
+      dat_compra_fim: "",
     };
   },
   methods: {
@@ -152,7 +170,6 @@ export default defineComponent({
       this.carregaListacompras();
     },
     carregaListacompras() {
-      console.log("ei " + this.modelusuario.ide_usuario + this.ind_pago);
       axios
         /*.post(
           process.env.api_back + "compra/list/" + this.modelusuario.ide_usuario
@@ -160,6 +177,8 @@ export default defineComponent({
         .post(process.env.api_back + "compra/pesquisa", {
           ide_usuario: this.modelusuario.ide_usuario,
           ind_pago: this.ind_pago,
+          dat_compra_inicio: this.dat_compra_inicio,
+          dat_compra_fim: this.dat_compra_fim,
         })
         .then((res) => {
           console.log(res);
@@ -181,6 +200,7 @@ export default defineComponent({
       axios
         .put(process.env.api_back + "compra/pagar/", {
           ide_usuario: this.modelusuario.ide_usuario,
+          dat_pagamento: agora,
           dat_ultima_alteracao: agora,
         })
         .then((this.showpgto = false), (this.modelTotal = 0), this.clearpage())
