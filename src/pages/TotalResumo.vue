@@ -21,6 +21,22 @@
           label="Pago"
         />
       </div>
+      <q-input
+          v-model="dat_compra_inicio"
+          filled
+          type="date"
+          hint="Data Início"
+          name="dat_compra_inicio"
+          style="max-width: 150px"
+        />
+        <q-input
+          v-model="dat_compra_fim"
+          filled
+          type="date"
+          hint="Data Fim"
+          name="dat_compra_fim"
+          style="max-width: 150px"
+        />
       <h6>Totais por Usuário</h6>
       <div id="total-resumo">
         <table border="solid" align="center">
@@ -74,8 +90,11 @@ export default defineComponent({
   },
   created() {
     axios
+    
       .post(process.env.api_back + "compra/pesquisatotal",{
           ind_pago: this.ind_pago,
+          dat_compra_inicio: this.dat_compra_inicio,
+          dat_compra_fim: this.dat_compra_fim,
         })
       .then((res) => {
         console.log(res);
@@ -91,6 +110,8 @@ export default defineComponent({
       usuarios: [],
       deleteUsuarioId: -1,
       ind_pago: 0,
+      dat_compra_inicio: "",
+      dat_compra_fim: "",
     };
   },
   methods: {
@@ -98,6 +119,8 @@ export default defineComponent({
       axios
       .post(process.env.api_back + "compra/pesquisatotal", {
           ind_pago: this.ind_pago,
+          dat_compra_inicio: this.dat_compra_inicio,
+          dat_compra_fim: this.dat_compra_fim,
         })
       .then((res) => {
         console.log(res);
@@ -105,6 +128,7 @@ export default defineComponent({
       })
       .catch((err) => {
         console.log(err);
+        this.usuarios = [];
       });
     },
     exportToPDF() {
