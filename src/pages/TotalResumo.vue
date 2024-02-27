@@ -22,21 +22,32 @@
         />
       </div>
       <q-input
-          v-model="dat_compra_inicio"
-          filled
-          type="date"
-          hint="Data Início"
-          name="dat_compra_inicio"
-          style="max-width: 150px"
+        v-model="dat_compra_inicio"
+        filled
+        type="date"
+        hint="Data Início"
+        name="dat_compra_inicio"
+        style="max-width: 150px"
+      />
+      <q-input
+        v-model="dat_compra_fim"
+        filled
+        type="date"
+        hint="Data Fim"
+        name="dat_compra_fim"
+        style="max-width: 150px"
+      />
+      <div align="right">
+        <q-btn
+          icon="add_circle"
+          label="Pesquisar"
+          push
+          color="primary"
+          class="my-button"
+          @click="carregaListaTotais()"
         />
-        <q-input
-          v-model="dat_compra_fim"
-          filled
-          type="date"
-          hint="Data Fim"
-          name="dat_compra_fim"
-          style="max-width: 150px"
-        />
+      </div>
+
       <h6>Totais por Usuário</h6>
       <div id="total-resumo">
         <table border="solid" align="center">
@@ -90,12 +101,12 @@ export default defineComponent({
   },
   created() {
     axios
-    
-      .post(process.env.api_back + "compra/pesquisatotal",{
-          ind_pago: this.ind_pago,
-          dat_compra_inicio: this.dat_compra_inicio,
-          dat_compra_fim: this.dat_compra_fim,
-        })
+
+      .post(process.env.api_back + "compra/pesquisatotal", {
+        ind_pago: this.ind_pago,
+        dat_compra_inicio: this.dat_compra_inicio,
+        dat_compra_fim: this.dat_compra_fim,
+      })
       .then((res) => {
         console.log(res);
         this.usuarios = res.data;
@@ -117,19 +128,19 @@ export default defineComponent({
   methods: {
     carregaListaTotais() {
       axios
-      .post(process.env.api_back + "compra/pesquisatotal", {
+        .post(process.env.api_back + "compra/pesquisatotal", {
           ind_pago: this.ind_pago,
           dat_compra_inicio: this.dat_compra_inicio,
           dat_compra_fim: this.dat_compra_fim,
         })
-      .then((res) => {
-        console.log(res);
-        this.usuarios = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-        this.usuarios = [];
-      });
+        .then((res) => {
+          console.log(res);
+          this.usuarios = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.usuarios = [];
+        });
     },
     exportToPDF() {
       html2pdf(document.getElementById("total-resumo"), {

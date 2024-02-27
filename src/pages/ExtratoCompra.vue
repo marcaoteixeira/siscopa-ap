@@ -19,21 +19,21 @@
         />
       </div>
       <q-input
-          v-model="dat_compra_inicio"
-          filled
-          type="date"
-          hint="Data Início"
-          name="dat_compra_inicio"
-          style="max-width: 150px"
-        />
-        <q-input
-          v-model="dat_compra_fim"
-          filled
-          type="date"
-          hint="Data Fim"
-          name="dat_compra_fim"
-          style="max-width: 150px"
-        />
+        v-model="dat_compra_inicio"
+        filled
+        type="date"
+        hint="Data Início"
+        name="dat_compra_inicio"
+        style="max-width: 150px"
+      />
+      <q-input
+        v-model="dat_compra_fim"
+        filled
+        type="date"
+        hint="Data Fim"
+        name="dat_compra_fim"
+        style="max-width: 150px"
+      />
       <div align="right">
         <q-btn
           icon="add_circle"
@@ -43,6 +43,7 @@
           class="my-button"
           @click="showModalpgto()"
         />
+
         <!-- <router-link
           :to="{
             name: 'pagarcompra',
@@ -73,42 +74,58 @@
       </div>
       <br />
     </q-card>
-    <table border="solid" align="left">
-      <thead>
-        <tr>
-          <th>IDE</th>
-          <th>Produto</th>
-          <th>QTD.</th>
-          <th>Preço</th>
-          <th>Data Compra</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <tr v-for="compra in compras" :key="compra.ide_compra">
-          <td style="width: 10px; text-align: right">
-            {{ compra.ide_compra }}
-          </td>
-          <td style="width: 450px">{{ compra.nom_produto }}</td>
-          <td style="width: 20px; text-align: center">
-            {{ compra.qtd_produto }}
-          </td>
-          <td style="width: 40px">{{ formatNumber(compra.num_preco) }}</td>
-          <td style="width: 280px; text-align: right">
-            {{ formatDate(compra.dat_compra) }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <span v-if="modelTotal > 0">
-              <h6 class="my-totaln">Total: {{ formatNumber(modelTotal) }}</h6>
-            </span>
-            <span v-else-if="modelTotal <= 0">
-              <h6 class="my-totalp">Total: {{ formatNumber(-modelTotal) }}</h6>
-            </span>
-          </td>
-        </tr>
-      </tbody>
+    <table border="solid" align="left">
+      <div id="cliente-extrato">
+        <thead>
+          <tr>
+            <th>IDE</th>
+            <th>Produto</th>
+            <th>QTD.</th>
+            <th>Preço</th>
+            <th>Data Compra</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="compra in compras" :key="compra.ide_compra">
+            <td style="width: 10px; text-align: right">
+              {{ compra.ide_compra }}
+            </td>
+            <td style="width: 450px">{{ compra.nom_produto }}</td>
+            <td style="width: 20px; text-align: center">
+              {{ compra.qtd_produto }}
+            </td>
+            <td style="width: 40px">{{ formatNumber(compra.num_preco) }}</td>
+            <td style="width: 280px; text-align: right">
+              {{ formatDate(compra.dat_compra) }}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <span v-if="modelTotal > 0">
+                <h6 class="my-totaln">Total: {{ formatNumber(modelTotal) }}</h6>
+              </span>
+              <span v-else-if="modelTotal <= 0">
+                <h6 class="my-totalp">
+                  Total: {{ formatNumber(-modelTotal) }}
+                </h6>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </div>
+      <div align="right">
+        <q-btn
+          push
+          color="black"
+          icon="print"
+          label="Imprimir"
+          @click="exportToPDF"
+          v-close-popup
+        />
+        <p></p>
+      </div>
     </table>
   </q-page>
 </template>
@@ -117,6 +134,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import { ref } from "vue";
+import html2pdf from "html2pdf.js";
 
 export default defineComponent({
   setup() {
@@ -218,6 +236,12 @@ export default defineComponent({
         currency: "BRL",
       });
       return formattedNumber;
+    },
+    exportToPDF() {
+      html2pdf(document.getElementById("cliente-extrato"), {
+        margin: 1,
+        filename: "totalresumo.pdf",
+      });
     },
     clearpage() {
       this.$router.go("/extratocompra");
