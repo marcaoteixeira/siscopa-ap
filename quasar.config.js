@@ -65,7 +65,8 @@ module.exports = configure(function (/* ctx */) {
       // analyze: true,
       env: {
         //api_back: "http://localhost:8080/",
-        api_back: "http://10.100.17.21:8080/",
+        //api_back: "http://10.100.17.21:8080/",
+        //api_back: "http://DC-386879:8080/",
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
