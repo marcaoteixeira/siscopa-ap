@@ -8,9 +8,8 @@
         :options="usuarios"
         option-value="ide_usuario"
         option-label="nom_usuario"
-        hint="Usuário"       
-      />         
-      
+        hint="Usuário"
+      />
       <div>
         <q-checkbox
           v-model="ind_pago"
@@ -77,11 +76,7 @@
     </q-card>
 
     <table border="solid" align="left">
-      
       <div id="cliente-extrato">
-        <span v-if="modelusuario!==null">
-          <center><b>{{ modelusuario.nom_usuario }}</b></center>
-        </span>  
         <thead>
           <tr>
             <th>IDE</th>
@@ -144,7 +139,7 @@ import html2pdf from "html2pdf.js";
 export default defineComponent({
   setup() {
     return {
-      modelusuario: ref(null),      
+      modelusuario: ref(null),
       modelTotal: ref(null),
     };
   },
@@ -167,9 +162,7 @@ export default defineComponent({
       showpgto: false,
       ind_pago: false,
       dat_compra_inicio: "",
-      dat_compra_fim: "",  
-      
-      
+      dat_compra_fim: "",
     };
   },
   methods: {
@@ -191,7 +184,7 @@ export default defineComponent({
       }).format(date);
     },
     atribuiUsuario(usuario) {
-      this.modelusuario = usuario;         
+      this.modelusuario = usuario;
       this.carregaListacompras();
     },
     carregaListacompras() {
